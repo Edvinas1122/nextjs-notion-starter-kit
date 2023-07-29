@@ -9,16 +9,16 @@ export default siteConfig({
 
   // basic site info (required)
   name: process.env.NEXT_PUBLIC_NAME,
-  domain: process.env.DOMAIN,
-  author: process.env.AUTHOR,
+  domain: process.env.NEXT_PUBLIC_DOMAIN,
+  author: process.env.NEXT_PUBLIC_AUTHOR,
 
   // open graph metadata (optional)
-  description: process.env.DESCRIPTION,
+  description: process.env.NEXT_PUBLIC_DESCRIPTION,
 
   // social usernames (optional)
   // twitter: 'transitive_bs',
-  github: process.env.GITHUB,
-  linkedin: process.env.LINKEDIN,
+  github: process.env.NEXT_PUBLIC_GITHUB,
+  linkedin: process.env.NEXT_PUBLIC_LINKEDIN,
   // mastodon: '#', // optional mastodon profile URL, provides link verification
   // newsletter: '#', // optional newsletter URL
   // youtube: '#', // optional youtube channel name or `channel/UCGbXXXXXXXXXXXXXXXXXXXXXX`
