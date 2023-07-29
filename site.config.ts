@@ -2,24 +2,24 @@ import { siteConfig } from './lib/site-config'
 
 export default siteConfig({
   // the site's root Notion page (required)
-  rootNotionPageId: 'acd18d297b8c4eb1823d21f63088898c',
+  rootNotionPageId: process.env.NOTION_ROOT_PAGE,
 
   // if you want to restrict pages to a single notion workspace (optional)
   // (this should be a Notion ID; see the docs for how to extract this)
   rootNotionSpaceId: null,
 
   // basic site info (required)
-  name: 'Edvinas Momkus - Personal Page',
-  domain: 'edvniasmomkus.com',
-  author: 'Edvinas Momkus',
+  name: process.env.NAME,
+  domain: process.env.DOMAIN,
+  author: process.env.AUTHOR,
 
   // open graph metadata (optional)
-  description: 'Personal page of Edvinas Momkus',
+  description: process.env.DESCRIPTION,
 
   // social usernames (optional)
   // twitter: 'transitive_bs',
-  github: 'edvinas1122',
-  linkedin: 'edvinas-momkus-01b878120',
+  github: process.env.GITHUB,
+  linkedin: process.env.LINKEDIN,
   // mastodon: '#', // optional mastodon profile URL, provides link verification
   // newsletter: '#', // optional newsletter URL
   // youtube: '#', // optional youtube channel name or `channel/UCGbXXXXXXXXXXXXXXXXXXXXXX`
