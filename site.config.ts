@@ -8,7 +8,7 @@ export default siteConfig({
   rootNotionSpaceId: null,
 
   // basic site info (required)
-  name: process.env.NAME,
+  name: process.env.NEXT_PUBLIC_NAME,
   domain: process.env.DOMAIN,
   author: process.env.AUTHOR,
 
