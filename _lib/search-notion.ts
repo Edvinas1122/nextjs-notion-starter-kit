@@ -22,14 +22,14 @@ async function searchNotionImpl(
     }
   })
     .then((res) => {
-      if (res.ok) {
+      // if (res.ok) {
         return res
-      }
+      // }
 
-      // convert non-2xx HTTP responses into errors
-      const error: any = new Error(res.statusText)
-      error.response = res
-      return Promise.reject(error)
+      // // convert non-2xx HTTP responses into errors
+      // const error: any = new Error(res.statusText)
+      // error.response = res
+      // return Promise.reject(error)
     })
     .then((res) => res.json())
 
