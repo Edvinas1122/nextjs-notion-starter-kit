@@ -1,85 +1,116 @@
-class NotionAPI {
-	private apiBaseUrl: string;
-	private rootDir: string;
-	private authToken: string;
-	private fetch: (url: string, params: any) => Promise<any>;
-	private caching: boolean;
+import APIWrapper, {APIWrapperProps} from '../modules/api_wrapper';
+
+class NotionAPI extends APIWrapper {
+	private rootPageDir: string;
 
 	constructor({ 
-		rootDir = '',
+		rootPageDir = '',
 		authToken = '',
 		fetchFunction,
 		caching = false
 	}: { 
-		rootDir?: string,
+		rootPageDir?: string,
 		authToken?: string,
 		fetchFunction?: (url: string, params: any) => Promise<any>,
 		caching?: boolean
 	}) {
-		this.rootDir = rootDir;
-		this.authToken = authToken;
-		this.apiBaseUrl = "https://api.notion.com/v1/";
-		this.fetch = fetchFunction || this.fetchWrapper;
-		this.caching = caching;
-	}
-
-	private async fetchWrapper(
-		url: string,
-		options?: RequestInit,
-		revalidate?: false | number
-	): Promise<Response>
-	{
-		const finalOptions = {
-		  ...options,
-		  next: { 
-			revalidate: revalidate ? revalidate : this.caching ? 60 : 0, 
-		}
-		};
-		return await fetch(url, finalOptions);
-	}
-
-	private headers(): any {
-		if (!this.authToken) {
-			return {
-				'Notion-Version': '2022-06-28',
-				'Content-Type': 'application/json'
-			}
-		}
-		return {
+		super({
+			apiBaseUrl: "https://api.notion.com/v1/",
+			authToken,
+			fetchFunction,
+			caching,
 			headers: {
-				'Authorization': `Bearer ${this.authToken}`,
-				'Notion-Version': '2022-06-28',
-				'Content-Type': 'application/json'
+				'Notion-Version': '2022-06-28'
 			}
-		}
+		});
+		this.rootPageDir = rootPageDir;
 	}
 
-	async getPageInfo({
-		pageId = this.rootDir,
+	async getPage({
+		pageId = this.rootPageDir,
 	}: {
 		pageId?: string
 	} = {}): Promise<any>
 	{
-		const response = await this.fetch(`${this.apiBaseUrl}pages/${pageId}`, this.headers());
-		const data = await response.json();
-		return data;
+		return this.fetchData({ endpoint: `pages/${pageId}` });
 	}
-
-	async getPageBlocks({
-		pageId = this.rootDir,
+	
+	async getBlockChildren({
+		blockId = this.rootPageDir,
 		count = 50,
 	}: {
-		pageId?: string,
+		blockId?: string,
 		count?: number
 	} = {}): Promise<any>
 	{
-		const response = await this.fetch(`${this.apiBaseUrl}blocks/${pageId}/children`, this.headers());
-		const data = await response.json();
-		return data;
+		return this.fetchData({ endpoint: `blocks/${blockId}/children` });
+	}
+
+	async getBlock({
+		blockId
+	}: {
+		blockId: string
+	} = {}): Promise<any>
+	{
+		return this.fetchData({ endpoint: `blocks/${blockId}` });
+	}
+	
+	async getDatabase({
+		databaseId
+	}: {
+		databaseId: string
+	} = {}): Promise<any>
+	{
+		return this.fetchData({ endpoint: `databases/${databaseId}` });
+	}
+
+	async queryDatabase({
+		databaseId,
+		filter = undefined,
+		sort = undefined,
+		start_cursor = undefined,
+		page_size = 100
+	}: {
+		databaseId: string,
+		filter?: any,
+		sort?: any,
+		start_cursor?: string,
+		page_size?: number
+	} = {}): Promise<any>
+	{
+		return this.fetchData({ endpoint: `databases/${databaseId}/query`, method: "POST", body: { filter, sort, start_cursor, page_size } });
+	}
+
+	async getPagePropertyItem({
+		pageId = this.rootPageDir,
+		propertyId
+	}: {
+		pageId?: string,
+		propertyId: string
+	} = {}): Promise<any>
+	{
+		return this.fetchData({ endpoint: `pages/${pageId}/properties/${propertyId}` });
+	}
+
+	async search({
+		query = '',
+		filter = undefined,
+		sort = undefined,
+		start_cursor = undefined,
+		page_size = 100
+	}: {
+		query?: string,
+		filter?: any,
+		sort?: any,
+		start_cursor?: string,
+		page_size?: number
+	} = {}): Promise<any>
+	{
+		return this.fetchData({ endpoint: `search`, method: "POST", body: { query, filter, sort, start_cursor, page_size } });
 	}
 }
 
 export const notion = new NotionAPI({
-	rootDir: process.env.NEXT_PUBLIC_NOTION_ROOT_PAGE || '',
+	rootPageDir: process.env.NEXT_PUBLIC_NOTION_ROOT_PAGE || '',
 	authToken: process.env.ACCESS_API_KEY || ''
 })

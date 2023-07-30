@@ -1,6 +1,6 @@
 import { Icon } from "../block/icon";
-import Image from 'next/image';
 import CoverView from "./cover";
+import TitleIcon from "./title_icon";
 
 interface Page {
 	id: string;
@@ -14,11 +14,11 @@ interface Page {
 			type: string,
 			file: File,
 		},
-		icon: Icon,
 	},
+	icon: Icon,
 	parent: any;
 	archived: boolean;
-	properties: { [key: string]: any };
+	properties: { [key: string]: any } | {title: {title: any[];}};
 	url: string;
 	public_url: string;
 }
@@ -28,35 +28,15 @@ interface PageViewProps {
 	children: any;
 }
 
-function TitleIcon({
-	icon
-}: {
-	icon: Icon
-}): any
-{
-	return (
-		<div className="notion-page-icon-hero notion-page-icon-image">
-			<span>
-				<Image
-					src={icon.file.url}
-					// fill={true}
-					width={120}
-					height={120}
-					alt="icon"
-				/>
-			</span>
-		</div>
-	);
-}
 
 export default function NotionPageView({
 	page,
 	children,
 }: PageViewProps ): any
 {
-	console.log(page);
 	const cover = page.cover;
 	const icon = page.icon;
+	const title = page.properties.title.title[0].plain_text;
 	return (
 		<div className="notion-page-scroller">
 			<CoverView
@@ -71,6 +51,7 @@ export default function NotionPageView({
 			>
 			<TitleIcon
 				icon={icon}
+				title={title}
 			/>
 			{children}
 			</main>

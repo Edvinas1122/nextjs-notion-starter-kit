@@ -52,8 +52,12 @@ export const notionPageBuilder = ({
 
 export default async function NotionPageData() {
 
-	const page = await notion.getPageInfo();
-	const blocks = await notion.getPageBlocks();
+	const page = await notion.getPage();
+	const blocks = await notion.getBlockChildren();
+	const here = await notion.getBlockChildren();
+
+	console.log(here.results[1]);
+
 	const notionPage = notionPageBuilder({
 		blocks: blocks.results,
 		page: page,

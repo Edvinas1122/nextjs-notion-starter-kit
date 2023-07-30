@@ -5,12 +5,14 @@ interface CoverProps {
 			type: string,
 			file: File,
 	}
+	title: any;
 }
 
 export default function CoverView({
 	cover,
 }: CoverProps ): any
 {
+
 	return (
 		<div className="notion-page-cover-wrapper">
 			<Image
