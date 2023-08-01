@@ -163,11 +163,6 @@ Analytics are an optional feature that are easy to enable if you want.
 
 To enable, just add a `NEXT_PUBLIC_FATHOM_ID` environment variable, which will only be used in production.
 
-### PostHog Analytics
-
-[PostHog](https://posthog.com/) provides a lightweight, **open source** alternative to Google Analytics.
-
-To enable, just add a `NEXT_PUBLIC_POSTHOG_ID` environment variable, which will only be used in production.
 
 ## Environment Variables
 
