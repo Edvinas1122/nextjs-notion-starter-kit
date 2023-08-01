@@ -1,4 +1,4 @@
-import { notion } from "./api";
+// import { notion } from "./api/V1";
 import handleBlock from "./objects/block/blocks";
 import NotionPageView from "./objects/page/page";
 
@@ -50,24 +50,28 @@ export const notionPageBuilder = ({
 	);
 }
 
+
+import NotionAPI, { NotionEndpoints } from "./api/V1";
+import NotionAPIV3, { NotionEndpointsV3 } from "./api/V3";
+import TestAPI from "./api/tests/V1";
+import TestAPI3 from "./api/tests/V3";
+
+
 export default async function NotionPageData() {
 
-	const page = await notion.getPage();
-	const blocks = await notion.getBlockChildren();
-	const here = await notion.getBlockChildren();
-
-	console.log(here.results[1]);
-
-	const notionPage = notionPageBuilder({
-		blocks: blocks.results,
-		page: page,
-	}); // if object list or not empty
+	// const notionPage = notionPageBuilder({
+	// 	blocks: blocks.results,
+	// 	page: page,
+	// });
 
 	return (
 		<>
-			{
+			 {/* <TestAPI /> */}
+			 <TestAPI3 />
+			{/* <PageSamepe recordMap={page} /> */}
+			{/* {
 				notionPage
-			}
+			} */}
 		</>
 	);
 }
